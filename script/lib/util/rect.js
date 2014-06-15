@@ -58,7 +58,7 @@
         this.monitFlag = true;
         // console.log(e) 
         // offsetX/Y 基于父级中"定位"(pos值为relative or abs)了的元素的位置
-        console.log('set rect start: ', e.offsetX, e.offsetY )
+        // console.log('set rect start: ', e.offsetX, e.offsetY )
         this.startX = e.offsetX
         this.startY = e.offsetY
         this.rectEle.css({
@@ -71,7 +71,7 @@
         // 鼠标滑动速度过快或者发生急速的变相时,指针会到rect上去
         // 此时的offset的基准会发生变化...
         if( $(e.target).attr('id') == RECT_ID ){
-            console.log('冒泡');
+            // console.log('鼠标滑到了rect上...');
             styleObj = {
                 width: e.offsetX,
                 height: e.offsetY,
@@ -84,12 +84,14 @@
                 height: getStyleValue(this.rectEle.css('height'))
             };
             if(cur.top != this.startY){
+                // console.log('up');
                 // console.log( cur.top + e.offsetY )
                 // console.log( cur.height - e.offsetY )
                 styleObj.top = cur.top + e.offsetY
                 styleObj.height = cur.height - e.offsetY;
             }
             if(cur.left != this.startX){
+                // console.log('left');
                 styleObj.left = cur.left + e.offsetX;
                 styleObj.width = cur.width - e.offsetX;
             }
@@ -106,8 +108,14 @@
             if(deltaX < 0){
                 styleObj.left = e.offsetX
             }
+            else{
+                styleObj.left = this.startX
+            }
             if(deltaY < 0){
                 styleObj.top = e.offsetY
+            }
+            else{
+                styleObj.top = this.startY
             }
         }
         // 直接赋值css会有bug jquery的bug

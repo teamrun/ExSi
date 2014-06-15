@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>鼠标滑动生成rect选取</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 100px 0 0 100px;
+        }
+        #select-ctn{
+            position: relative;
+            height: 800px;
+            width: 800px;
+            background-color: #D4896A;
+        }
+    </style>
+</head>
+<body>
+    <div id="select-ctn"></div>
+    <script src="script/vendor/jquery-1.8.3.js"></script>
+    <script src="script/lib/util/rect.js"></script>
+
+    <script>
+        var opt = {
+            ctn: '#select-ctn'
+        }
+        var rect = new MouseRect(opt);
+        $(document.body).bind('mouseup', rect.doneRect.bind(rect));
+    </script>
+</body>
+</html>

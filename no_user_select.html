@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>禁用用户选中, mousemove新建div</title>
+    <link rel="stylesheet" href="layout/css/layout.css">
+</head>
+<body>
+    <div class="select-area"></div>
+    
+    <div class="file-ctn">
+        <div class="file"></div>
+        <div class="name">文件1</div>
+    </div>
+    <div class="file-ctn">
+        <div class="file"></div>
+        <div class="name">文件2</div>
+    </div>
+    <div class="file-ctn">
+        <div class="file"></div>
+        <div class="name">文件3</div>
+    </div>
+    <div class="file-ctn">
+        <div class="file"></div>
+        <div class="name">文件4</div>
+    </div>
+    <div class="file-ctn">
+        <div class="file"></div>
+        <div class="name">文件5</div>
+    </div>
+    <div class="file-ctn">
+        <div class="file"></div>
+        <div class="name">文件6</div>
+    </div>
+    <div class="file-ctn">
+        <div class="file"></div>
+        <div class="name">文件7</div>
+    </div>
+    <div class="file-ctn">
+        <div class="file"></div>
+        <div class="name">文件8</div>
+    </div>
+    
+    <script src="./script/vendor/jquery-1.8.3.js"></script>
+    <!-- // <script src="./script/lib/view/rect-select.js"></script> -->
+     <script>
+    var sArea = document.querySelector('.select-area');
+    var flag = false;
+    var X, Y;
+
+    var config = {
+        mw: 80,
+        mh: 100
+    };
+    document.body.addEventListener('mousedown', function( e ){
+        setStartPos( e );
+        showSelectArea();
+        backDefault();
+        flag = true;
+    });
+    document.body.addEventListener('mousemove', function( e ){
+        if( flag ){
+            if(e.target.getAttribute('class')=='select-area'){
+                console.log('也冒泡了```')
+                console.log('但是由于取的是body e.x 所以没有出现问题')
+            }
+            setWH( e );
+            suber();
+        }
+    });
+    document.body.addEventListener('mouseup', function( e ){
+        hideSelectArea();
+        flag = false;
+        // reset sArea
+    });
+
+    function showSelectArea(){
+        sArea.style.display = 'block';
+    }
+    function hideSelectArea(){
+        setTimeout( function(){
+            sArea.style.display = 'none';
+        }, 60);
+        
+    }
+
+    function setStartPos( e ){
+        X = e.x;
+        Y = e.y;
+        sArea.style.top = Y + 'px';
+        sArea.style.left = X + 'px';
+
+        sArea.style.width = 0;
+        sArea.style.height = 0;
+    }
+    function setWH( e ){
+        var w = e.x - X;
+        var h = e.y - Y;
+        if( w < 0){
+            // console.log( '向左划...' );
+            // console.log( X + w );
+            // 从鼠标起始点开始计算
+            sArea.style.left = X + w + 'px';
+        }
+        sArea.style.width = Math.abs(w) + 'px';
+
+        if( h < 0 ){
+            sArea.style.top = Y + h + 'px';
+        }
+
+        sArea.style.height = Math.abs(h) + 'px';
+    }
+
+    var members = document.querySelectorAll( '.file-ctn' );
+    var count = members.length;
+    function suber(){
+        // console.log( members[0].offsetTop );
+        // console.log( members[0].offsetLeft );
+
+        var xLeft = getStyleVal( sArea.style.left );
+        var xRight = xLeft + getStyleVal(  sArea.style.width );
+
+        var yTop = getStyleVal(  sArea.style.top );
+        var yBottom = yTop + getStyleVal(  sArea.style.height );
+
+        var a = {
+            xLeft: xLeft,
+            xRight: xRight,
+            yTop: yTop,
+            yBottom: yBottom
+        };
+
+        // console.log( xLeft + ' : ' + xRight );
+
+        for( var i=0; i<count; i++ ){
+            var mx = members[i].offsetLeft;
+            var my = members[i].offsetTop;
+            var m = {
+                mx: mx,
+                my: my
+            }
+
+            if( isIn( m, a ) ){
+                members[i].className = 'file-ctn isin';
+            }
+            else{
+                members[i].className = 'file-ctn';
+            }
+        }
+    }
+
+
+    function getStyleVal( styleValStr ){
+        return Number( styleValStr.substr( 0, styleValStr.length-2 ) );
+    }
+    function backDefault(){
+        for( var i=0; i<count; i++ ){
+            members[i].className = 'file-ctn';
+        }
+    }
+
+    function isIn( m, a ){
+        /* --------- 只判断了四个角的点... --------- */
+            // // north west
+            // if( m.mx>a.xLeft && m.mx<a.xRight && m.my>a.yTop && m.my<a.yBottom ){
+            //     return true;
+            // }
+            // // north east
+            // var tmpX = m.mx+mw;
+            // if( tmpX>a.xLeft && tmpX<a.xRight && m.my>a.yTop && m.my<a.yBottom ){
+            //     return true;
+            // }
+            // // south east
+            // var tmpY = m.my+mh;
+            // if( tmpX>a.xLeft && tmpX<a.xRight && tmpY>a.yTop && tmpY<a.yBottom ){
+            //     return true;
+            // }
+            // // south west
+            // if( m.mx>a.xLeft && m.mx<a.xRight && tmpY>a.yTop && tmpY<a.yBottom ){
+            //     return true;
+            // }
+        /* --------- end of 只判断了四个角的点... --------- */
+
+        /* --------- 判断两个盒子的碰撞 --------- */
+        /*
+            A ----------- B
+              |         |
+              |         |
+            D ----------- C
+
+        */
+
+        var A = { x: a.xLeft, y: a.yTop },
+            B = { x: a.xRight, y: a.yTop },
+            C = { x: a.xRight, y: a.yBottom },
+            D = { x: a.xLeft, y: a.yBottom };
+
+        var mA = { x: m.mx, y: m.my },
+            mB = { x: m.mx+config.mw, y: m.my },
+            mC = { x: m.mx+config.mw, y: m.my+config.mh },
+            mD = { x: m.mx, y: m.my+config.mh };
+
+        if(   (mA.y < D.y && mD.y > A.y) && ( mA.x<B.x && mB.x>A.x )    ){
+            return true;
+        }
+        return false;
+    }
+    </script>
+
+   
+</body>
+</html>

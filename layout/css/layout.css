@@ -13,7 +13,17 @@ body {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  position: relative;
+  line-height: 1.5;
+}
+/* line 16, reset.less */
+* {
+  box-sizing: border-box;
+}
+/* line 21, reset.less */
+.fix-flt:after {
+  content: '';
+  display: table;
+  clear: both;
 }
 /* line 1, simulate.less */
 .select-area {
@@ -27,31 +37,45 @@ body {
   border-radius: 4px;
 }
 /* line 12, simulate.less */
-.file-ctn {
+.worker-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* line 17, simulate.less */
+.worker-item {
   float: left;
-  box-sizing: border-box;
-  padding: 5px;
-  width: 80px;
-  height: 100px;
-  margin: 30px 20px;
-  border: 1px solid transparent;
-  /*background-color: #0F79D3;*/
-  border-radius: 10px;
+  margin: 1em 1em 1em 1em;
+  height: 86px;
+  text-align: center;
+  border: 1px solid #ddd;
 }
 /* line 25, simulate.less */
-.file-ctn.isin {
-  border: 1px solid #ccc;
-  background-color: rgba(50, 50, 50, 0.125);
-}
-/* line 29, simulate.less */
-.file {
+.worker-item .worker-avatar {
   width: 60px;
   height: 60px;
-  margin: 0 auto;
   border-radius: 10px;
   background-color: #91BDD8;
 }
-/* line 36, simulate.less */
+/* line 31, simulate.less */
+.worker-item .worker-name {
+  display: inline-block;
+  margin: 0.5em 0 0 0;
+  padding: 0 0.5em;
+  line-height: 1.2;
+  border-radius: 5px;
+}
+/* line 40, simulate.less */
+.worker-item.isin .worker-avatar {
+  box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.125);
+}
+/* line 43, simulate.less */
+.worker-item.isin .worker-name {
+  border-radius: 0.5em;
+  color: #fff;
+  background-color: #3892B0;
+}
+/* line 50, simulate.less */
 .name {
   margin: 5px 0 0 0;
   text-align: center;

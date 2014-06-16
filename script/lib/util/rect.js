@@ -23,6 +23,8 @@
         this.ctn = $(opt.ctn);
         this.ctn.addClass(RECT_CTN_CLASS);
 
+        this.drawCallback = opt.drawCallback;
+
         var rectEle = $(document.createElement('div'));
         rectEle.attr('id', RECT_ID);
         this.ctn.append(rectEle);
@@ -49,7 +51,7 @@
         this.ctn.bind('mousedown', startRect.bind(this) );
         this.ctn.bind('mousemove', function(e){
             if(self.monitFlag){
-                drawRect.bind(self)(e, this.drawCallback);
+                drawRect.bind(self)(e, self.drawCallback);
             }
         });
         this.ctn.bind('mouseup', endRect.bind(this));

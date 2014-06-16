@@ -41,9 +41,9 @@
         <div class="name">文件8</div>
     </div>
     
-    <script src="./script/vendor/jquery-1.8.3.js"></script>
-    <!-- // <script src="./script/lib/view/rect-select.js"></script> -->
-     <script>
+
+
+ <script>
     var sArea = document.querySelector('.select-area');
     var flag = false;
     var X, Y;
@@ -60,10 +60,6 @@
     });
     document.body.addEventListener('mousemove', function( e ){
         if( flag ){
-            if(e.target.getAttribute('class')=='select-area'){
-                console.log('也冒泡了```')
-                console.log('但是由于取的是body e.x 所以没有出现问题')
-            }
             setWH( e );
             suber();
         }
@@ -206,7 +202,6 @@
         return false;
     }
     </script>
-
    
 </body>
 </html>

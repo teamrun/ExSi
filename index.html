@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Explore Simulator: 鼠标选取 and 文件选择</title>
+    <link rel="stylesheet" href="layout/css/layout.css">
+</head>
+<body>
+    <div ms-controller="worker">
+        <ul class="worker-list">
+            <li class="worker-item" ms-repeat-w="man">
+                <div class="worker-avatar"></div>
+                <span class="worker-name">{{w.name}}</span>
+            </li>
+        </ul>
+    </div>
+    
+    <script src="./script/vendor/jquery-1.8.3.js"></script>
+    <script src="./script/vendor/avalon.js"></script>
+    <script src="script/lib/util/rect.js"></script>
+
+    <script src="./script/lib/view/app.js"></script>
+   
+</body>
+</html>

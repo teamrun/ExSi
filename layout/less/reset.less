@@ -11,5 +11,16 @@ body{
     -ms-user-select: none;
     user-select: none;
 
-    position: relative;
+    line-height: 1.5;
+}
+*{
+    box-sizing: border-box;
+}
+
+.fix-flt{
+    &:after{
+        content: '';
+        display: table;
+        clear: both;
+    }
 }

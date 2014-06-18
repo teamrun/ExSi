@@ -21,5 +21,42 @@
 
     <script src="./script/lib/view/app.js"></script>
    
+    <script>
+        var data = {
+            profession: {
+                '001': '小工',
+                '002': '大工',
+                '101': 'hacker'
+            },
+            worker: [
+                {
+                    name: '张三',
+                    pro: '001'
+                },
+                {
+                    name: 'Reese',
+                    pro: '002'
+                },
+                {
+                    name: 'Finch',
+                    pro: '101'
+                }
+            ]
+        };
+
+        // for( var i=0,j=300; i<j; i++ ){
+        //     data.worker.push({name: '王'+i, pro: '00'+i});
+        // }
+
+        var workerVM, professionVM;
+
+        avalon.ready(function(){
+            workerVM = avalon.define('worker', function(vm){
+                vm.man = data.worker;
+            });
+
+            avalon.scan();
+        });
+    </script>
 </body>
 </html>

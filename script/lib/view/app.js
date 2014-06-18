@@ -1,13 +1,15 @@
 (function(){
 
     var _class = {
-        workerItem: 'worker-item'
+        item: 'worker-item',
+        itemSelected: 'selected'
     }
 
-    var posArr, rect;
+    var items;
+    var posArr, rect, mouseDownMoved;
 
     function detectCollision(box1,box2){
-        console.log( box1,box2 )
+        // console.log( box1,box2 )
         /*
             A ----------- B
               |         |
@@ -20,8 +22,7 @@
         return false;
     }
 
-    function genWorkerPosArr(){
-        var $eles = $('.'+_class.workerItem);
+    function genWorkerPosArr($eles){
         // 由于高度是统一的, 所以有一个H
         var H = $eles.eq(0).height();
         var W = $eles.eq(0).width();
@@ -47,45 +48,54 @@
         };
         posArr.forEach(function(el,i,arr){
             if(detectCollision(rectBox, el)){
-                el.el.addClass('isin');
+                el.el.addClass(_class.itemSelected);
             }
             else{
-                el.el.removeClass('isin');
+                el.el.removeClass(_class.itemSelected);
             }
         })
     }
 
-    var data = {
-        profession: {
-            '001': '小工',
-            '002': '大工',
-            '101': 'hacker'
-        },
-        worker: [
-            {
-                name: '张三',
-                pro: '001'
-            },
-            {
-                name: 'Reese',
-                pro: '002'
-            },
-            {
-                name: 'Finch',
-                pro: '101'
+    /*
+     * 多种组合的配合...
+     * 
+     * 点击: 激活自己, 清除其余
+     * ctrl + 点击: toggle自己, 不要管别人
+     * 
+     * 滑选: 激活选中, 清除其余
+     * ctrl + 划选: toggle选中, 不管别人
+     * 
+     */
+
+    var _event = {
+        // keyboard事件 metaKey 比较复杂  明天再搞
+        // and mousedown 发生在item上时```怎么搞?
+        // 虽然genPos方法的存在使得item不一定非得按float排`` 但是```
+        itemClickHandler: function(e){
+            e.preventDefault();
+            console.log(e);
+            var item = $(this);
+            if( e.ctrlKey || e.metaKey ){
+                if( item.hasClass(_class.itemSelected) ){
+                    item.removeClass(_class.itemSelected);
+                }
+                else{
+                    item.addClass(_class.itemSelected);
+                }
             }
-        ]
-    };
+            else{
+                _event.unSelectAll();
+                item.addClass(_class.itemSelected);
+            }
 
-    var workerVM, professionVM;
-
-    avalon.ready(function(){
-        workerVM = avalon.define('worker', function(vm){
-            vm.man = data.worker;
-        });
-
-        avalon.scan();
-    });
+            
+            
+            e.stopPropagation();
+        },
+        unSelectAll: function(){
+            items.removeClass( _class.itemSelected );
+        }
+    }
 
     function init(){
         /* 
@@ -97,13 +107,32 @@
         var opt = {
             ctn: 'body',
             // 碰撞检测
-            drawCallback: drawCallback
+            drawCallback: function(styleObj){
+                drawCallback(styleObj);
+                // 添加一个状态值: mousedown -> move -> up 后
+                // 不触发click空白区域的清空事件
+                mouseDownMoved = true;
+            }
         };
         // 鼠标选区
         rect = new window.MouseRect(opt);
+        // 事件绑定: item点选, 右键屏蔽+自定义, 空白区点击取消选择
+        rect.ctn.delegate('.'+_class.item, 'click', _event.itemClickHandler);
+        // rect.ctn.bind('contextmenu', function(e){
+        //     e.preventDefault();
+        // });
+        rect.ctn.bind('click', function(){
+            if(mouseDownMoved){
+                mouseDownMoved = false;
+            }
+            else{
+                _event.unSelectAll();
+            }
+        });
 
         setTimeout(function(){
-            posArr = genWorkerPosArr();
+            items = rect.ctn.find('.'+_class.item);
+            posArr = genWorkerPosArr( items );
         }, 1000);
     }
 

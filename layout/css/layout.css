@@ -9,10 +9,6 @@ body {
 /* line 7, reset.less */
 body {
   background-color: #f5f5f5;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   line-height: 1.5;
 }
 /* line 16, reset.less */
@@ -43,6 +39,12 @@ body {
   list-style: none;
 }
 /* line 17, simulate.less */
+.worker-list:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+/* line 23, simulate.less */
 .worker-item {
   float: left;
   margin: 1em 1em 1em 1em;
@@ -50,14 +52,14 @@ body {
   text-align: center;
   border: 1px solid #ddd;
 }
-/* line 25, simulate.less */
+/* line 31, simulate.less */
 .worker-item .worker-avatar {
   width: 60px;
   height: 60px;
   border-radius: 10px;
   background-color: #91BDD8;
 }
-/* line 31, simulate.less */
+/* line 37, simulate.less */
 .worker-item .worker-name {
   display: inline-block;
   margin: 0.5em 0 0 0;
@@ -65,17 +67,17 @@ body {
   line-height: 1.2;
   border-radius: 5px;
 }
-/* line 40, simulate.less */
-.worker-item.isin .worker-avatar {
+/* line 46, simulate.less */
+.worker-item.selected .worker-avatar {
   box-shadow: 0 0 0 5px rgba(0, 0, 0, 0.125);
 }
-/* line 43, simulate.less */
-.worker-item.isin .worker-name {
+/* line 49, simulate.less */
+.worker-item.selected .worker-name {
   border-radius: 0.5em;
   color: #fff;
   background-color: #3892B0;
 }
-/* line 50, simulate.less */
+/* line 56, simulate.less */
 .name {
   margin: 5px 0 0 0;
   text-align: center;

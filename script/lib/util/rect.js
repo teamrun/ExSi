@@ -55,6 +55,14 @@
             }
         });
         this.ctn.bind('mouseup', endRect.bind(this));
+
+        // 进入内部元素也会触发ctn元素的mouseout
+        // 使用jquery的mouseleave可以避免这个问题
+        this.ctn.bind('mouseleave', function(e){
+            if( e.target.getAttribute('class') == RECT_CTN_CLASS ){
+                self.doneRect();
+            }
+        });
     };
 
     MouseRect.prototype.doneRect = function() {

@@ -118,9 +118,9 @@
         rect = new window.MouseRect(opt);
         // 事件绑定: item点选, 右键屏蔽+自定义, 空白区点击取消选择
         rect.ctn.delegate('.'+_class.item, 'click', _event.itemClickHandler);
-        // rect.ctn.bind('contextmenu', function(e){
-        //     e.preventDefault();
-        // });
+        rect.ctn.bind('contextmenu', function(e){
+            e.preventDefault();
+        });
         rect.ctn.bind('click', function(){
             if(mouseDownMoved){
                 mouseDownMoved = false;

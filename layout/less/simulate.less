@@ -25,7 +25,7 @@
     margin: 1em 1em 1em 1em;
     height: 86px;
     text-align: center;
-    border: 1px solid #ddd;
+    // border: 1px solid #ddd;
     // background-color: #91BDD8;
 
     .worker-avatar{
@@ -33,6 +33,7 @@
         height: 60px;
         border-radius: 10px;
         background-color: #91BDD8;
+        box-shadow: 0 0 5px 0px rgba(0,0,0,0.25);
     }
     .worker-name{
         display: inline-block;
@@ -44,7 +45,7 @@
 
     &.selected{
         .worker-avatar{
-            box-shadow: 0 0 0 5px rgba(0,0,0,0.125);
+            box-shadow: 0 0 0 8px rgba(0,0,0,0.25);
         }
         .worker-name{
             border-radius: 0.5em;
@@ -53,7 +54,7 @@
         }
     }
 }
-.name{
-    margin: 5px 0 0 0;
-    text-align: center;
+.worker-avatar{
+    background-image: url('../../image/doge.jpg');
+    background-size: cover;
 }

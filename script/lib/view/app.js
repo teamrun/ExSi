@@ -130,10 +130,21 @@
             }
         });
 
+        // 生成item定位数组
         setTimeout(function(){
             items = rect.ctn.find('.'+_class.item);
             posArr = genWorkerPosArr( items );
         }, 1000);
+        // 绑定resize
+        var resizeTimer;
+        $(window).bind('resize', function(){
+            clearTimeout()
+            resizeTimer = setTimeout(function(){
+                posArr = genWorkerPosArr( items );
+            },100);
+        })
+
+
     }
 
     init();
